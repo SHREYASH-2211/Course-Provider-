@@ -92,7 +92,7 @@ export default function Component() {
 useEffect(() => {
   const fetchEvents = async () => {
     try {
-      const response = await API.get("http://localhost:8000/api/events", {
+      const response = await API.get("/events", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}` // if JWT token is stored
         }
@@ -372,7 +372,7 @@ useEffect(() => {
 
   const confirmDelete = async () => {
   try {
-    await axios.delete(`http://localhost:8000/api/events/${selectedEvent.id}`, {
+    await axios.delete(`/events/${selectedEvent.id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
