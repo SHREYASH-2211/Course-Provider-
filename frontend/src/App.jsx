@@ -15,6 +15,7 @@ import HostEvent from "./pages/HostEvent";
 import NotFound from "./pages/NotFound";
 import StudentView from "./pages/StudentView";
 import Dashboard1 from './pages/Dashboard1';
+import Admin from './pages/enhanced-admin-dashboard';
 
 import Ai from "./pages/Ai";
 
@@ -41,6 +42,8 @@ const App = () => (
                 <Route path='/student-dashboard' element={<StudentView/>} />
                 <Route path="/ai" element={<Ai/>}/>
                 <Route path='/provider-dashboard' element={<Dashboard1/>}/>
+                <Route path='/admin-dashboard' element={<Admin/>}/>
+
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>

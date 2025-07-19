@@ -289,7 +289,7 @@ useEffect(() => {
 
   try {
     const response = await axios.post(
-      "http://localhost:8000/api/events",
+      "/events",
       newEvent,
       {
         headers: {
