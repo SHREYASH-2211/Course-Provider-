@@ -3,6 +3,7 @@ dotenv.config({ path: "../.env" });
 
 import connectDB from "./db/index.js";
 import app from "./app.js"; // ✅ this app has your routes!
+import "./cron/deadlineReminder.js";
 
 connectDB()
   .then(() => {

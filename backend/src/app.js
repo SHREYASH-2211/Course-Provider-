@@ -23,4 +23,6 @@ import eventRoutes from './routes/event.routes.js';
 
 app.use('/api/events', eventRoutes);
 
+import announcementRoutes from './routes/announcement.routes.js';
+app.use("/api/announcement", announcementRoutes);
 export default app;
