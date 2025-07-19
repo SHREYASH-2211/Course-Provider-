@@ -29,3 +29,12 @@ export const verifyJWT=asyncHandler(async (req, res, next) => {
 
     
 })
+
+export const authorizeRoles = (...allowedRoles) => {
+  return asyncHandler(async (req, res, next) => {
+    if (!req.user || !allowedRoles.includes(req.user.role)) {
+      throw new ApiError(403, "Access forbidden: insufficient permissions");
+    }
+    next();
+  });
+};

@@ -3,18 +3,8 @@ import { loginUser, logoutUser, registerUser,refreshAccessToken, changeCurrentPa
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 const router = Router();
-router.route("/register").post(
-    upload.fields([
-        {
-            name: "avatar",
-            maxCount: 1
-        },
-        {
-            name: "coverImage",
-            maxCount: 1
-        } 
-    ]),
-    registerUser)
+// Register a new user (student / provider / admin), role in body
+router.post("/register", registerUser);
 
  router.route("/login").post(loginUser)
  //secured routes
