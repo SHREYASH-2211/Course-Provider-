@@ -5,7 +5,8 @@ import "./student.css"
 import { useAuth } from '../context/AuthContext'; // adjust the path
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
-
+import axios from 'axios';
+import API from '../services/api.jsx'; 
 const StudentView = () => {
   // State management
   const { logout } = useAuth();
@@ -240,119 +241,135 @@ const StudentView = () => {
     },
   ]
 
+  const [events, setEvents] = useState([]);
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const res = await API.get('/events');
+        setEvents(res.data.data);
+        console.log(res.data) // ApiResponse wrapper
+      } catch (err) {
+        console.error('Error fetching events:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, []);
   // Sample events data
-  const [events] = useState([
-    {
-      id: 1,
-      title: "Advanced React Development",
-      description:
-        "Master advanced React concepts including hooks, context, and performance optimization. Learn from industry experts and build real-world projects.",
-      type: "course",
-      provider: "TechEdu Academy",
-      tags: ["React", "JavaScript", "Frontend"],
-      date: "2024-02-15",
-      time: "10:00 AM",
-      pricing: "paid",
-      price: "$299",
-      location: "online",
-      image: "/placeholder.svg?height=200&width=300&text=React+Course",
-      rating: 4.8,
-      reviews: 156,
-      duration: "8 weeks",
-    },
-    {
-      id: 2,
-      title: "AI & Machine Learning Fundamentals",
-      description:
-        "Introduction to artificial intelligence and machine learning concepts. Hands-on experience with Python and popular ML libraries.",
-      type: "webinar",
-      provider: "AI Institute",
-      tags: ["AI", "Machine Learning", "Python"],
-      date: "2024-02-20",
-      time: "2:00 PM",
-      pricing: "free",
-      price: "Free",
-      location: "online",
-      image: "/placeholder.svg?height=200&width=300&text=AI+ML+Course",
-      rating: 4.6,
-      reviews: 89,
-      duration: "2 hours",
-    },
-    {
-      id: 3,
-      title: "Digital Marketing Strategies",
-      description:
-        "Learn effective digital marketing strategies for modern businesses. Cover SEO, social media, content marketing, and analytics.",
-      type: "seminar",
-      provider: "Marketing Pro",
-      tags: ["Marketing", "SEO", "Social Media"],
-      date: "2024-02-25",
-      time: "9:00 AM",
-      pricing: "paid",
-      price: "$149",
-      location: "offline",
-      venue: "Business Center, NYC",
-      image: "/placeholder.svg?height=200&width=300&text=Marketing+Course",
-      rating: 4.7,
-      reviews: 203,
-      duration: "1 day",
-    },
-    {
-      id: 4,
-      title: "UX/UI Design Workshop",
-      description:
-        "Hands-on workshop covering user experience and interface design principles. Create stunning designs using industry-standard tools.",
-      type: "workshop",
-      provider: "Design Studio",
-      tags: ["Design", "UX", "UI"],
-      date: "2024-03-01",
-      time: "11:00 AM",
-      pricing: "paid",
-      price: "$199",
-      location: "offline",
-      venue: "Creative Hub, LA",
-      image: "/placeholder.svg?height=200&width=300&text=UX+UI+Design",
-      rating: 4.9,
-      reviews: 127,
-      duration: "2 days",
-    },
-    {
-      id: 5,
-      title: "Blockchain Technology Basics",
-      description:
-        "Understanding blockchain technology, cryptocurrencies, and decentralized applications. Perfect for beginners.",
-      type: "course",
-      provider: "Crypto Academy",
-      tags: ["Blockchain", "Cryptocurrency", "Technology"],
-      date: "2024-03-05",
-      time: "3:00 PM",
-      pricing: "free",
-      price: "Free",
-      location: "online",
-      image: "/placeholder.svg?height=200&width=300&text=Blockchain+Course",
-      rating: 4.5,
-      reviews: 94,
-      duration: "4 weeks",
-    },
-    {
-      id: 6,
-      title: "Data Science with Python",
-      description:
-        "Comprehensive data science course covering Python, pandas, numpy, and data visualization techniques.",
-      type: "course",
-      provider: "DataLearn",
-      tags: ["Data Science", "Python", "Analytics"],
-      date: "2024-03-10",
-      time: "1:00 PM",
-      pricing: "paid",
-      price: "$399",
-      location: "online",
-      image: "/placeholder.svg?height=200&width=300&text=Data+Science",
-      rating: 4.8,
-      reviews: 178,
-      duration: "12 weeks",
-    },
-  ])
+  // const [events] = useState([
+  //   {
+  //     id: 1,
+  //     title: "Advanced React Development",
+  //     description:
+  //       "Master advanced React concepts including hooks, context, and performance optimization. Learn from industry experts and build real-world projects.",
+  //     type: "course",
+  //     provider: "TechEdu Academy",
+  //     tags: ["React", "JavaScript", "Frontend"],
+  //     date: "2024-02-15",
+  //     time: "10:00 AM",
+  //     pricing: "paid",
+  //     price: "$299",
+  //     location: "online",
+  //     image: "/placeholder.svg?height=200&width=300&text=React+Course",
+  //     rating: 4.8,
+  //     reviews: 156,
+  //     duration: "8 weeks",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "AI & Machine Learning Fundamentals",
+  //     description:
+  //       "Introduction to artificial intelligence and machine learning concepts. Hands-on experience with Python and popular ML libraries.",
+  //     type: "webinar",
+  //     provider: "AI Institute",
+  //     tags: ["AI", "Machine Learning", "Python"],
+  //     date: "2024-02-20",
+  //     time: "2:00 PM",
+  //     pricing: "free",
+  //     price: "Free",
+  //     location: "online",
+  //     image: "/placeholder.svg?height=200&width=300&text=AI+ML+Course",
+  //     rating: 4.6,
+  //     reviews: 89,
+  //     duration: "2 hours",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Digital Marketing Strategies",
+  //     description:
+  //       "Learn effective digital marketing strategies for modern businesses. Cover SEO, social media, content marketing, and analytics.",
+  //     type: "seminar",
+  //     provider: "Marketing Pro",
+  //     tags: ["Marketing", "SEO", "Social Media"],
+  //     date: "2024-02-25",
+  //     time: "9:00 AM",
+  //     pricing: "paid",
+  //     price: "$149",
+  //     location: "offline",
+  //     venue: "Business Center, NYC",
+  //     image: "/placeholder.svg?height=200&width=300&text=Marketing+Course",
+  //     rating: 4.7,
+  //     reviews: 203,
+  //     duration: "1 day",
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "UX/UI Design Workshop",
+  //     description:
+  //       "Hands-on workshop covering user experience and interface design principles. Create stunning designs using industry-standard tools.",
+  //     type: "workshop",
+  //     provider: "Design Studio",
+  //     tags: ["Design", "UX", "UI"],
+  //     date: "2024-03-01",
+  //     time: "11:00 AM",
+  //     pricing: "paid",
+  //     price: "$199",
+  //     location: "offline",
+  //     venue: "Creative Hub, LA",
+  //     image: "/placeholder.svg?height=200&width=300&text=UX+UI+Design",
+  //     rating: 4.9,
+  //     reviews: 127,
+  //     duration: "2 days",
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "Blockchain Technology Basics",
+  //     description:
+  //       "Understanding blockchain technology, cryptocurrencies, and decentralized applications. Perfect for beginners.",
+  //     type: "course",
+  //     provider: "Crypto Academy",
+  //     tags: ["Blockchain", "Cryptocurrency", "Technology"],
+  //     date: "2024-03-05",
+  //     time: "3:00 PM",
+  //     pricing: "free",
+  //     price: "Free",
+  //     location: "online",
+  //     image: "/placeholder.svg?height=200&width=300&text=Blockchain+Course",
+  //     rating: 4.5,
+  //     reviews: 94,
+  //     duration: "4 weeks",
+  //   },
+  //   {
+  //     id: 6,
+  //     title: "Data Science with Python",
+  //     description:
+  //       "Comprehensive data science course covering Python, pandas, numpy, and data visualization techniques.",
+  //     type: "course",
+  //     provider: "DataLearn",
+  //     tags: ["Data Science", "Python", "Analytics"],
+  //     date: "2024-03-10",
+  //     time: "1:00 PM",
+  //     pricing: "paid",
+  //     price: "$399",
+  //     location: "online",
+  //     image: "/placeholder.svg?height=200&width=300&text=Data+Science",
+  //     rating: 4.8,
+  //     reviews: 178,
+  //     duration: "12 weeks",
+  //   },
+  // ])
 
   // Analytics data
   const weeklyData = [
@@ -773,7 +790,7 @@ const StudentView = () => {
                     <div key={course.id} className="content-card" onClick={() => setSelectedEvent(course)}>
                       <div className="card-image">
                         <div className="image-placeholder">
-                          <span>Course Image</span>
+                          <img src={course.image} alt="Course" style={{ width: "100%", height: "auto" }} />
                         </div>
                         <div className="card-type-badge">Course</div>
                       </div>
@@ -807,7 +824,8 @@ const StudentView = () => {
                     <div key={event.id} className="content-card" onClick={() => setSelectedEvent(event)}>
                       <div className="card-image">
                         <div className="image-placeholder">
-                          <span>Event Image</span>
+                          <img src={event.image} alt="Course" style={{ width: "100%", height: "auto" }} />
+
                         </div>
                         <div className="card-type-badge">{event.type}</div>
                       </div>
@@ -1377,7 +1395,8 @@ const StudentView = () => {
               <div key={course.id} className="event-card" onClick={() => setSelectedEvent(course)}>
                 <div className="event-image">
                   <div className="image-placeholder">
-                    <span>Course Image</span>
+                    <img src={course.image} alt="Course" style={{ width: "100%", height: "auto" }} />
+
                   </div>
                   <div className="event-type-badge">Course</div>
                   <button
@@ -1457,7 +1476,8 @@ const StudentView = () => {
             <div key={event.id} className="event-card" onClick={() => setSelectedEvent(event)}>
               <div className="event-image">
                 <div className="image-placeholder">
-                  <span>Event Image</span>
+                  <img src={event.image} alt="Course" style={{ width: "100%", height: "auto" }} />
+
                 </div>
                 <div className="event-type-badge">{event.type}</div>
                 <button
@@ -1511,7 +1531,8 @@ const StudentView = () => {
         <div className="event-detail-content">
           <div className="event-detail-header">
             <div className="image-placeholder large">
-              <span>Event Image</span>
+              <img src={selectedEvent.image} alt="Course" style={{ width: "100%", height: "auto" }} />
+
             </div>
             <div className="event-detail-info">
               <div className="event-type-badge">{selectedEvent.type}</div>
@@ -1737,7 +1758,8 @@ const StudentView = () => {
                 <div key={event.id} className="event-card" onClick={() => setSelectedEvent(event)}>
                   <div className="event-image">
                     <div className="image-placeholder">
-                      <span>Event Image</span>
+                      <img src={event.image} alt="Course" style={{ width: "100%", height: "auto" }} />
+
                     </div>
                     <div className="event-type-badge">{event.type}</div>
                     <button

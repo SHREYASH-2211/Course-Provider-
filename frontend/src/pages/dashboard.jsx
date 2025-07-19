@@ -50,6 +50,9 @@ import {
 import { useAuth } from '../context/AuthContext'; // adjust the path
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast'; 
+import API from '../services/api.jsx'; 
+import axios from 'axios';
+ // adjust the path
 export default function Component() {
   const [activeView, setActiveView] = useState("dashboard")
   const [isCreateEventOpen, setIsCreateEventOpen] = useState(false)
@@ -82,85 +85,50 @@ export default function Component() {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [events, setEvents] = useState([]);
 
-  const [events, setEvents] = useState([
-    {
-      id: 1,
-      title: "Advanced React Masterclass",
-      description:
-        "Deep dive into React hooks, context, and performance optimization techniques for modern web development.",
-      date: "2024-03-15",
-      displayDate: "Thu, Mar 15, 2024",
-      location: "Tech Hub Convention Center",
-      attendees: "85 / 100 attendees",
-      attendance: 85,
-      status: "Expired",
-      rating: 4.8,
-      image: "/placeholder.svg?height=200&width=400&text=React+Masterclass",
-      maxAttendees: 100,
-      currentAttendees: 85,
-    },
-    {
-      id: 2,
-      title: "UI/UX Design Workshop",
-      description: "Learn the fundamentals of user experience design and create stunning user interfaces.",
-      date: "2024-08-20",
-      displayDate: "Tue, Aug 20, 2024",
-      location: "Creative Arts Studio",
-      attendees: "12 / 60 attendees",
-      attendance: 20,
-      status: "Pending",
-      rating: 0,
-      image: "/placeholder.svg?height=200&width=400&text=UX+Design",
-      maxAttendees: 60,
-      currentAttendees: 12,
-    },
-    {
-      id: 3,
-      title: "Python for Data Science",
-      description: "Master Python programming for data analysis and machine learning applications.",
-      date: "2024-09-25",
-      displayDate: "Sun, Sep 25, 2024",
-      location: "University Auditorium",
-      attendees: "45 / 150 attendees",
-      attendance: 30,
-      status: "Pending",
-      rating: 0,
-      image: "/placeholder.svg?height=200&width=400&text=Python+Data+Science",
-      maxAttendees: 150,
-      currentAttendees: 45,
-    },
-    {
-      id: 4,
-      title: "JavaScript Fundamentals",
-      description: "Complete guide to JavaScript programming from basics to advanced concepts.",
-      date: "2024-07-30",
-      displayDate: "Tue, Jul 30, 2024",
-      location: "Online Virtual Classroom",
-      attendees: "0 / 80 attendees",
-      attendance: 0,
-      status: "Pending",
-      rating: 0,
-      image: "/placeholder.svg?height=200&width=400&text=JavaScript+Course",
-      maxAttendees: 80,
-      currentAttendees: 0,
-    },
-    {
-      id: 5,
-      title: "Machine Learning Bootcamp",
-      description: "Intensive bootcamp covering machine learning algorithms and practical applications.",
-      date: "2024-10-15",
-      displayDate: "Tue, Oct 15, 2024",
-      location: "Tech Innovation Center",
-      attendees: "23 / 100 attendees",
-      attendance: 23,
-      status: "Pending",
-      rating: 0,
-      image: "/placeholder.svg?height=200&width=400&text=ML+Bootcamp",
-      maxAttendees: 100,
-      currentAttendees: 23,
-    },
-  ])
+
+useEffect(() => {
+  const fetchEvents = async () => {
+    try {
+      const response = await API.get("http://localhost:8000/api/events", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}` // if JWT token is stored
+        }
+      });
+
+      // Transform dates and attendees into frontend format if necessary
+      const transformed = response.data.data.map((event) => ({
+        id: event._id,
+        title: event.title,
+        description: event.description,
+        date: event.date,
+        displayDate: new Date(event.date).toLocaleDateString("en-US", {
+          weekday: "short",
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        }),
+        location: event.location,
+        attendees: `${event.currentAttendees || 0} / ${event.maxAttendees || 100} attendees`,
+        attendance: Math.round(((event.currentAttendees || 0) / (event.maxAttendees || 100)) * 100),
+        status: "Pending",
+        rating: event.rating || 0,
+        image: event.image || "/placeholder.svg",
+        maxAttendees: event.maxAttendees || 0,
+        currentAttendees: event.currentAttendees || 0,
+      }));
+
+      setEvents(transformed);
+      setIsLoading(false);
+      setAnimateStats(true);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  };
+
+  fetchEvents();
+}, []);
 
   useEffect(() => {
     // Simulate loading
@@ -171,12 +139,12 @@ export default function Component() {
   }, [])
 
   const handleLogout = () => {
-    logout(); // clears localStorage + context
+    logout(); 
     toast({
       title: "Logged out",
       description: "You have been successfully logged out.",
     });
-    navigate('/'); // go to home/login page
+    navigate('/');
   };
 
   // Calculate days remaining for events
@@ -297,45 +265,57 @@ export default function Component() {
     { id: "profile", label: "Profile", icon: User },
   ]
 
-  const handleCreateEvent = () => {
-    if (!eventTitle || !eventDescription || !eventDate || !location || !maxAttendees) {
-      alert("Please fill in all required fields")
-      return
-    }
-
-    const newEvent = {
-      id: Date.now(), // Simple ID generation
-      title: eventTitle,
-      description: eventDescription,
-      date: eventDate,
-      displayDate: new Date(eventDate).toLocaleDateString("en-US", {
-        weekday: "short",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      }),
-      location: location,
-      attendees: `0 / ${maxAttendees} attendees`,
-      attendance: 0,
-      status: "Pending",
-      rating: 0,
-      image: "/placeholder.svg?height=200&width=400&text=" + encodeURIComponent(eventTitle),
-      maxAttendees: Number.parseInt(maxAttendees),
-      currentAttendees: 0,
-    }
-
-    setEvents([newEvent, ...events])
-
-    // Reset form
-    setEventTitle("")
-    setEventDescription("")
-    setEventDate("")
-    setLocation("")
-    setExpiryDate("")
-    setMaxAttendees("")
-
-    setIsCreateEventOpen(false)
+  const handleCreateEvent = async () => {
+  if (!eventTitle || !eventDescription || !eventDate || !location || !maxAttendees) {
+    alert("Please fill in all required fields");
+    return;
   }
+
+  const newEvent = {
+    title: eventTitle,
+    description: eventDescription,
+    date: eventDate,
+    time: eventDate.split("T")[1],
+    type: "course", // or get this from a dropdown
+    tags: [],
+    location,
+    pricing: "free", // or from form
+    price: "",
+    duration: "N/A",
+    image: "/placeholder.svg",
+    maxAttendees: parseInt(maxAttendees),
+  };
+
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/api/events",
+      newEvent,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    // Refresh list after creation
+    setEvents((prev) => [response.data.data, ...prev]);
+    toast({ title: "Event created successfully" });
+
+    // Reset form & close modal
+    setEventTitle("");
+    setEventDescription("");
+    setEventDate("");
+    setLocation("");
+    setExpiryDate("");
+    setMaxAttendees("");
+    setIsCreateEventOpen(false);
+  } catch (error) {
+    toast({ title: "Error", description: "Could not create event." });
+    console.error("Create event error:", error);
+  }
+};
+
 
   const handleViewEvent = (event) => {
     setSelectedEvent(event)
@@ -389,12 +369,24 @@ export default function Component() {
     setIsDeleteDialogOpen(true)
   }
 
-  const confirmDelete = () => {
-    const updatedEvents = events.filter((event) => event.id !== selectedEvent.id)
-    setEvents(updatedEvents)
-    setIsDeleteDialogOpen(false)
-    setSelectedEvent(null)
+  const confirmDelete = async () => {
+  try {
+    await axios.delete(`http://localhost:8000/api/events/${selectedEvent.id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+
+    setEvents((prev) => prev.filter((ev) => ev.id !== selectedEvent.id));
+    setIsDeleteDialogOpen(false);
+    setSelectedEvent(null);
+    toast({ title: "Event deleted" });
+  } catch (error) {
+    console.error("Delete error:", error);
+    toast({ title: "Error", description: "Failed to delete event" });
   }
+};
+
 
   const LoadingSpinner = () => (
     <div className="flex items-center justify-center min-h-screen">
