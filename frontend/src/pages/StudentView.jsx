@@ -19,6 +19,25 @@ const StudentView = () => {
     });
     navigate('/'); // go to home/login page
   };
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+  const storedUser = localStorage.getItem("user");
+
+  if (storedUser) {
+    try {
+      const parsedUser = JSON.parse(storedUser);
+      setUserProfile((prev) => ({
+        ...prev,
+        name: parsedUser.fullname || "",
+        email: parsedUser.email || "",
+      }));
+    } catch (err) {
+      console.error("Failed to parse user from localStorage", err);
+    }
+  }
+}, []);
+
   const [currentPage, setCurrentPage] = useState("home")
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [savedEvents, setSavedEvents] = useState([])
@@ -45,10 +64,10 @@ const StudentView = () => {
 
   // User profile state
   const [userProfile, setUserProfile] = useState({
-    name: "Alex Johnson",
+    name: "",
     year: "3rd Year",
     interests: ["React", "AI", "Design"],
-    email: "alex.johnson@university.edu",
+    email: "",
     avatar: "/placeholder.svg?height=40&width=40&text=AJ",
   })
 
