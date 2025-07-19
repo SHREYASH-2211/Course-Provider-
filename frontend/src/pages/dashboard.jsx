@@ -47,7 +47,7 @@ import {
   Home,
   Save,
 } from "lucide-react"
-import { useAuth } from '../context/AuthContext'; // adjust the path
+import { useAuth } from '../context/AuthContext.jsx'; // adjust the path
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast'; 
 import API from '../services/api.jsx'; 

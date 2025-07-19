@@ -14,7 +14,8 @@ import Register from "./pages/Register";
 import HostEvent from "./pages/HostEvent";
 import NotFound from "./pages/NotFound";
 import StudentView from "./pages/StudentView";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from './pages/Dashboard';
+
 import Ai from "./pages/Ai";
 
 const queryClient = new QueryClient();
