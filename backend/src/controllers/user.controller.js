@@ -22,10 +22,10 @@ return {accessToken, refreshToken};
 const registerUser= asyncHandler(async (req, res) => {
    
 
-    const {fullname, username, email, password } = req.body;
+    const {fullname, username, email, password,role } = req.body;
     console.log("email:", email);
     console.log("fullname:", fullname);
-    if([fullname==="", username==="", email==="", password===""].includes(true)){ {
+    if([fullname==="", username==="", email==="", password==="",role===""].includes(true)){ {
         throw new ApiError(400,"All fields are required" );
     }
     }
@@ -49,6 +49,7 @@ const registerUser= asyncHandler(async (req, res) => {
         username: username.toLowerCase(),
         email,
         password,
+        role
        
     });
    const createdUser=await User.findById(user._id).select("-password -refreshToken");
