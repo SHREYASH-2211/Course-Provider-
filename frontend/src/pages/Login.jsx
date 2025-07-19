@@ -8,6 +8,9 @@ import { Label } from '../components/ui/label';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
 import Header from '../components/Header';
+// import { useAuth } from './useAuth'; // adjust path
+// import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/components/ui/use-toast';
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -39,10 +42,10 @@ const Login = () => {
         });
         
         // Redirect based on role
-        if (result.user.role === 'admin') {
-          navigate('/admin');
+        if (result.user.role === 'student') {
+          navigate('/student-dashboard');
         } else if (result.user.role === 'host') {
-          navigate('/host-dashboard');
+          navigate('/provider-dashboard');
         } else {
           navigate('/');
         }

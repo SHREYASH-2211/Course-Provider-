@@ -47,7 +47,9 @@ import {
   Home,
   Save,
 } from "lucide-react"
-
+import { useAuth } from '../context/AuthContext'; // adjust the path
+import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/components/ui/use-toast'; 
 export default function Component() {
   const [activeView, setActiveView] = useState("dashboard")
   const [isCreateEventOpen, setIsCreateEventOpen] = useState(false)
@@ -76,6 +78,10 @@ export default function Component() {
   const [editDate, setEditDate] = useState("")
   const [editLocation, setEditLocation] = useState("")
   const [editMaxAttendees, setEditMaxAttendees] = useState("")
+
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   const [events, setEvents] = useState([
     {
@@ -163,6 +169,15 @@ export default function Component() {
       setAnimateStats(true)
     }, 1000)
   }, [])
+
+  const handleLogout = () => {
+    logout(); // clears localStorage + context
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out.",
+    });
+    navigate('/'); // go to home/login page
+  };
 
   // Calculate days remaining for events
   const getEventStatus = (eventDate) => {
@@ -993,10 +1008,7 @@ export default function Component() {
               </div>
             </div>
 
-            <Button
-              variant="ghost"
-              className="text-red-600 hover:text-red-700 hover:bg-red-50 transition-all duration-300 rounded-xl"
-            >
+            <Button variant="ghost" className="text-red-600 hover:text-red-700 hover:bg-red-50 transition-all duration-300 rounded-xl" onClick={handleLogout}> 
               <LogOut className="h-5 w-5" />
             </Button>
           </div>

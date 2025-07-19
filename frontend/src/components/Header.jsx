@@ -10,6 +10,15 @@ const Header = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const location = useLocation();
 
+  const handleLogout = () => {
+    logout();
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out.",
+    });
+    navigate('/login');
+  };
+
   const navItems = [
     { label: 'Home', href: '/' },
     { label: 'Upcoming Events', href: '/events' },
@@ -63,7 +72,7 @@ const Header = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={logout}
+                  onClick={handleLogout}
                   className="flex items-center space-x-2"
                 >
                   <LogOut className="h-4 w-4" />

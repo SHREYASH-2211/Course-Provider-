@@ -2,9 +2,23 @@
 
 import { useState, useEffect } from "react"
 import "./student.css"
+import { useAuth } from '../context/AuthContext'; // adjust the path
+import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/components/ui/use-toast';
 
 const StudentView = () => {
   // State management
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const handleLogout = () => {
+    logout(); // clears localStorage + context
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out.",
+    });
+    navigate('/'); // go to home/login page
+  };
   const [currentPage, setCurrentPage] = useState("home")
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [savedEvents, setSavedEvents] = useState([])
@@ -549,7 +563,7 @@ const StudentView = () => {
             </button>
             {showProfileDropdown && <ProfileDropdown />}
           </div>
-          <button className="logout-button">Logout</button>
+          <button className="logout-button" onClick={handleLogout}>Logout</button>
         </div>
       </div>
     </nav>
