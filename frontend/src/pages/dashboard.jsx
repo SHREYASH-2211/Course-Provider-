@@ -72,6 +72,7 @@ export default function Component() {
   const [eventDescription, setEventDescription] = useState("")
   const [eventDate, setEventDate] = useState("")
   const [location, setLocation] = useState("")
+  const [image, setImage] = useState("")
   const [expiryDate, setExpiryDate] = useState("")
   const [maxAttendees, setMaxAttendees] = useState("")
 
@@ -266,7 +267,7 @@ useEffect(() => {
   ]
 
   const handleCreateEvent = async () => {
-  if (!eventTitle || !eventDescription || !eventDate || !location || !maxAttendees) {
+  if (!eventTitle || !eventDescription || !eventDate || !location || !maxAttendees || !image) {
     alert("Please fill in all required fields");
     return;
   }
@@ -282,7 +283,7 @@ useEffect(() => {
     pricing: "free", // or from form
     price: "",
     duration: "N/A",
-    image: "/placeholder.svg",
+    image,
     maxAttendees: parseInt(maxAttendees),
   };
 
@@ -663,7 +664,7 @@ useEffect(() => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <Card className="hover:shadow-xl transition-all duration-500 border-0 shadow-lg animate-in slide-in-from-left-6 duration-700 delay-400">
+        <Card className="hover:shadow-xl transition-all duration-500 border-0 shadow-lg animate-in slide-in-from-left-6 delay-400">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <BarChart3 className="w-5 h-5 text-purple-600" />
@@ -680,7 +681,7 @@ useEffect(() => {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-xl transition-all duration-500 border-0 shadow-lg animate-in slide-in-from-right-6 duration-700 delay-400">
+        <Card className="hover:shadow-xl transition-all duration-500 border-0 shadow-lg animate-in slide-in-from-right-6 delay-400">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <TrendingUp className="w-5 h-5 text-emerald-600" />
@@ -707,7 +708,7 @@ useEffect(() => {
         <p className="text-gray-600 mt-2">Manage your account and preferences</p>
       </div>
 
-      <Card className="max-w-2xl hover:shadow-xl transition-all duration-500 border-0 shadow-lg animate-in slide-in-from-bottom-6 duration-700 delay-200">
+      <Card className="max-w-2xl hover:shadow-xl transition-all duration-500 border-0 shadow-lg animate-in slide-in-from-bottom-6 delay-200">
         <CardHeader className="flex flex-row items-center space-y-0 space-x-6 pb-6">
           <div className="relative group">
             <Avatar className="h-20 w-20 ring-4 ring-purple-100 group-hover:ring-purple-200 transition-all duration-300">
@@ -1307,12 +1308,20 @@ useEffect(() => {
               <Label className="text-gray-700 font-medium">
                 Event Image <span className="text-gray-400 text-sm">(Optional)</span>
               </Label>
-              <div className="border-2 border-dashed border-purple-200 rounded-2xl p-12 text-center hover:border-purple-300 hover:bg-purple-50/50 transition-all duration-300 cursor-pointer group">
+              {/* <div className="border-2 border-dashed border-purple-200 rounded-2xl p-12 text-center hover:border-purple-300 hover:bg-purple-50/50 transition-all duration-300 cursor-pointer group">
                 <Upload className="h-16 w-16 text-purple-400 mx-auto mb-4 group-hover:text-purple-500 group-hover:scale-110 transition-all duration-300" />
                 <p className="text-purple-600 font-semibold text-lg mb-2">Upload an image or drag and drop</p>
                 <p className="text-purple-600 font-semibold text-lg mb-2">Upload an image or drag and drop</p>
                 <p className="text-gray-500">PNG, JPG up to 10MB</p>
-              </div>
+              </div> */}
+              <Input
+                  id="image"
+                  placeholder="Enter image url"
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
+                  className="bg-gray-50 border-0 focus:bg-white focus:ring-2 focus:ring-purple-200 transition-all duration-300 rounded-xl h-12"
+                  required
+                />
             </div>
 
             <div className="flex justify-end space-x-4 pt-6 border-t border-gray-100">

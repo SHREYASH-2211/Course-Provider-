@@ -670,7 +670,9 @@ body {
   font-size: 0.85rem;
   margin-bottom: 1rem;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  line-clamp: 3;
+-webkit-line-clamp: 3;
+
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -2049,7 +2051,9 @@ body {
   color: #6b7280;
   margin-bottom: 1rem;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

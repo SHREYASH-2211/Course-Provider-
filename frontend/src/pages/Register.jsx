@@ -1,7 +1,13 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link ,useNavigate} from "react-router-dom"
 import Header from "../components/Header"
-const initialState = {
+import API from "../services/api";
+
+
+
+export default function Register() {
+  const navigate = useNavigate();
+  const initialState = {
   username: "",
   email: "",
   password: "",
@@ -21,7 +27,47 @@ const initialState = {
   provider_contactNumber: "",
 }
 
-export default function Register() {
+  async function handleSubmit(e) {
+  e.preventDefault();
+  setIsLoading(true);
+
+  try {
+    const { username, email, password, role } = form;
+
+    const payload = {
+      username,
+      email,
+      password,
+      role,
+      ...(role === "student" && {
+        fullname: form.student_fullName,
+        phone: form.student_phone,
+        location: form.student_location,
+        profilePic: form.student_profilePic,
+        interests: form.student_interests,
+        link: form.student_link,
+        notification: form.student_notification,
+      }),
+      ...(role === "provider" && {
+        instituteName: form.provider_instituteName,
+        contactName: form.provider_contactName,
+        contactNumber: form.provider_contactNumber,
+      }),
+    };
+
+    const res = await API.post('/v1/users/register', payload);
+
+    console.log("User registered:", res.data);
+    alert("Registration successful!");
+    navigate('/login');
+  } catch (err) {
+    console.error("Registration error:", err.response?.data || err.message);
+    alert("Registration failed!");
+  } finally {
+    setIsLoading(false);
+  }
+}
+
   const [form, setForm] = useState(initialState)
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -29,17 +75,6 @@ export default function Register() {
   function handleChange(e) {
     const { name, type, value, checked } = e.target
     setForm({ ...form, [name]: type === "checkbox" ? checked : value })
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault()
-    setIsLoading(true)
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false)
-      console.log("Form submitted:", form)
-    }, 2000)
   }
 
   const isStudent = form.role === "student"
@@ -254,7 +289,7 @@ export default function Register() {
                 <div className="space-y-2">
                   <label className="block text-sm font-medium text-foreground">LinkedIn / Website</label>
                   <input
-                    type="url"
+                    type="text"
                     name="student_link"
                     value={form.student_link}
                     onChange={handleChange}
