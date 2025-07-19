@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
 import axios from 'axios';
 import API from '../services/api.jsx'; 
+import AIAssistant from "./Ai.jsx";
 const StudentView = () => {
   // State management
   const { logout } = useAuth();
@@ -561,6 +562,10 @@ const StudentView = () => {
           <li className={currentPage === "contact" ? "active" : ""}>
             <button onClick={() => setCurrentPage("contact")}>Contact</button>
           </li>
+          <li className={currentPage === "ai" ? "active" : ""}>
+            <button onClick={() => setCurrentPage("ai")}>AI </button>
+          </li>
+          
         </ul>
         <div className="nav-right">
           <div className="coin-wallet">
@@ -1916,6 +1921,8 @@ const StudentView = () => {
           {currentPage === "analytics" && <AnalyticsPage />}
           {currentPage === "game" && <GamePage />}
           {currentPage === "contact" && <ContactPage />}
+          {currentPage === "ai" && <AIAssistant />}
+          
         </>
       )}
 

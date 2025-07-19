@@ -4,7 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-import Header from "./components/Header";
+// import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Landing from "./pages/Landing";
 import Events from "./pages/Events";
@@ -15,6 +15,7 @@ import HostEvent from "./pages/HostEvent";
 import NotFound from "./pages/NotFound";
 import StudentView from "./pages/StudentView";
 import Dashboard from "./pages/Dashboard";
+import Ai from "./pages/Ai";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
                 <Route path="/host-event" element={<HostEvent />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path='/student-dashboard' element={<StudentView/>} />
+                <Route path="/ai" element={<Ai/>}/>
                 <Route path='/provider-dashboard' element={<Dashboard/>}/>
                 <Route path="*" element={<NotFound />} />
               </Routes>
