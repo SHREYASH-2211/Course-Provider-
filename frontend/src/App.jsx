@@ -14,7 +14,7 @@ import Register from "./pages/Register";
 import HostEvent from "./pages/HostEvent";
 import NotFound from "./pages/NotFound";
 import StudentView from "./pages/StudentView";
-import Dashboard from './pages/Dashboard1';
+import Dashboard1 from './pages/Dashboard1';
 
 import Ai from "./pages/Ai";
 
@@ -40,7 +40,7 @@ const App = () => (
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path='/student-dashboard' element={<StudentView/>} />
                 <Route path="/ai" element={<Ai/>}/>
-                <Route path='/provider-dashboard' element={<Dashboard/>}/>
+                <Route path='/provider-dashboard' element={<Dashboard1/>}/>
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
