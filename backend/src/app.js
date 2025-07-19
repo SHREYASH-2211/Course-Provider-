@@ -3,10 +3,15 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 const app   = express();
 
-const allowedOrigins = process.env.CORS_ORIGIN.split(',');
+
+const allowedOrigins = [
+  'http://localhost:8080',
+  'https://educonnect123.netlify.app'
+];
 
 app.use(cors({
   origin: function (origin, callback) {
+    // allow requests with no origin like mobile apps or curl
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
