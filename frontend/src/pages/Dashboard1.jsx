@@ -76,6 +76,7 @@ export default function Component() {
   const [image, setImage] = useState("")
   const [expiryDate, setExpiryDate] = useState("")
   const [maxAttendees, setMaxAttendees] = useState("")
+  const [price, setPrice] = useState("")
 
   // Edit form states
   const [editTitle, setEditTitle] = useState("")
@@ -268,7 +269,7 @@ useEffect(() => {
   ]
 
   const handleCreateEvent = async () => {
-  if (!eventTitle || !eventDescription || !eventDate || !location || !maxAttendees) {
+  if (!eventTitle || !eventDescription || !eventDate || !location || !maxAttendees||!image) {
     alert("Please fill in all required fields");
     return;
   }
@@ -281,8 +282,8 @@ useEffect(() => {
     type: "course", // or get this from a dropdown
     tags: [],
     location,
-    pricing: "free", // or from form
-    price: "",
+    pricing: price ? "paid" : "free",
+    price,
     duration: "N/A",
     image,
     maxAttendees: parseInt(maxAttendees),
@@ -1326,7 +1327,23 @@ useEffect(() => {
                   className="bg-gray-50 border-0 focus:bg-white focus:ring-2 focus:ring-purple-200 transition-all duration-300 rounded-xl h-12"
                   required
                 />
+                <div className="space-y-3">
+                <Label htmlFor="maxAttendees" className="text-purple-600 font-medium flex items-center space-x-2">
+                  <Users className="w-4 h-4" />
+                  <span>Maximum Attendees *</span>
+                </Label>
+                <Input
+                  id="price"
+                  type="number"
+                  placeholder="$50"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  className="bg-gray-50 border-0 focus:bg-white focus:ring-2 focus:ring-purple-200 transition-all duration-300 rounded-xl h-12"
+                  required
+                />
+              </div>
             </div>
+            
 
             <div className="flex justify-end space-x-4 pt-6 border-t border-gray-100">
               <Button
