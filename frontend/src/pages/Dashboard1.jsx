@@ -54,6 +54,7 @@ import API from '../services/api.jsx';
 import axios from 'axios';
  // adjust the path
 export default function Component() {
+  const link="https://educonnect-imfb.onrender.com/api"
   const [activeView, setActiveView] = useState("dashboard")
   const [isCreateEventOpen, setIsCreateEventOpen] = useState(false)
   const [isViewEventOpen, setIsViewEventOpen] = useState(false)
@@ -267,7 +268,7 @@ useEffect(() => {
   ]
 
   const handleCreateEvent = async () => {
-  if (!eventTitle || !eventDescription || !eventDate || !location || !maxAttendees || !image) {
+  if (!eventTitle || !eventDescription || !eventDate || !location || !maxAttendees) {
     alert("Please fill in all required fields");
     return;
   }
@@ -289,7 +290,7 @@ useEffect(() => {
 
   try {
     const response = await axios.post(
-      "/events",
+      `${link}/events`,
       newEvent,
       {
         headers: {
@@ -316,6 +317,7 @@ useEffect(() => {
     console.error("Create event error:", error);
   }
 };
+
 
 
   const handleViewEvent = (event) => {
@@ -372,12 +374,13 @@ useEffect(() => {
 
   const confirmDelete = async () => {
   try {
-    await axios.delete(`/events/${selectedEvent.id}`, {
+    // Change from: await axios.delete(`/events/${selectedEvent.id}`, {
+    await API.delete(`/events/${selectedEvent.id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-
+    
     setEvents((prev) => prev.filter((ev) => ev.id !== selectedEvent.id));
     setIsDeleteDialogOpen(false);
     setSelectedEvent(null);
@@ -387,6 +390,7 @@ useEffect(() => {
     toast({ title: "Error", description: "Failed to delete event" });
   }
 };
+
 
 
   const LoadingSpinner = () => (
