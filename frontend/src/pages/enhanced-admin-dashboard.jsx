@@ -412,6 +412,7 @@ const mockData = {
   ],
 }
 
+const user = JSON.parse(localStorage.getItem("user"));
 // Main Dashboard Component
 const EnhancedAdminDashboard = () => {
   const [activeSection, setActiveSection] = useState("dashboard")
@@ -420,8 +421,8 @@ const EnhancedAdminDashboard = () => {
   const [notifications, setNotifications] = useState([])
   const [editProfile, setEditProfile] = useState(false)
   const [profileData, setProfileData] = useState({
-    name: "Admin User",
-    email: "admin@events.com",
+    name: user?.fullname || "Admin User",
+    email: user?.email||"admin@events.com",
     role: "Administrator",
     department: "IT Operations",
     phone: "+1 (555) 123-4567",
@@ -909,6 +910,8 @@ const EnhancedAdminDashboard = () => {
 
   // Update dashboard with enhanced analytics
   const renderDashboard = () => (
+    <>
+    <h1 className="header1">Welcome {user.fullname} to Dashboard</h1>
     <div className="dashboard-section">
       {/* Stats Grid */}
       <div className="stats-grid">
@@ -983,6 +986,7 @@ const EnhancedAdminDashboard = () => {
         </div>
       </div>
     </div>
+    </>
   )
 
   const renderAnalytics = () => (
@@ -1630,8 +1634,8 @@ const EnhancedAdminDashboard = () => {
             <div className="user-info">
               <div className="user-avatar">AD</div>
               <div className="user-details">
-                <span className="user-name">Admin User</span>
-                <span className="user-email">admin@events.com</span>
+                <span className="user-name">{user.fullname}</span>
+                <span className="user-email">{user.email}</span>
               </div>
             </div>
             <Icons.ChevronDown />

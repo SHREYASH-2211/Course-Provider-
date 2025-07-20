@@ -61,7 +61,7 @@ export default function Component() {
   const [isEditEventOpen, setIsEditEventOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState(null)
-  const [fullName, setFullName] = useState("Alex Rivera")
+  const [fullName, setFullName] = useState("")
   const [email, setEmail] = useState("provider@example.com")
   const [isLoading, setIsLoading] = useState(true)
   const [animateStats, setAnimateStats] = useState(false)
@@ -77,6 +77,9 @@ export default function Component() {
   const [expiryDate, setExpiryDate] = useState("")
   const [maxAttendees, setMaxAttendees] = useState("")
   const [price, setPrice] = useState("")
+
+  const user = JSON.parse(localStorage.getItem('user'));
+  console.log(user.fullname);
 
   // Edit form states
   const [editTitle, setEditTitle] = useState("")
@@ -582,7 +585,7 @@ useEffect(() => {
         <div className="absolute inset-0 bg-[url('/placeholder.svg?height=400&width=800&text=Pattern')] opacity-10"></div>
         <div className="relative z-10">
           <h1 className="text-3xl font-bold mb-3 animate-in slide-in-from-left-6 duration-700">
-            Welcome back, <span className="text-yellow-300">Alex Rivera</span>! 👋
+            Welcome back, <span className="text-yellow-300">{user.fullname}</span>! 👋
           </h1>
           <p className="text-purple-100 text-lg animate-in slide-in-from-left-6 duration-700 delay-200">
             Ready to create amazing learning experiences? Your dashboard is looking fantastic today.
@@ -1001,7 +1004,7 @@ useEffect(() => {
                 </AvatarFallback>
               </Avatar>
               <div className="text-sm">
-                <p className="font-semibold text-gray-900">Alex Rivera</p>
+                <p className="font-semibold text-gray-900">{user.fullname}</p>
                 <p className="text-gray-500">Provider</p>
               </div>
             </div>

@@ -13,6 +13,10 @@ body {
   min-height: 100vh;
 }
 
+.header1{
+  font-size:3rem;
+}
+
 /* Enhanced Admin Dashboard Layout */
 .enhanced-admin-dashboard {
   min-height: 100vh;

@@ -708,7 +708,9 @@ const StudentView = () => {
   const HomePage = () => (
     <div className="home-page">
       <div className="home-container">
+        <h1 className="text-black header">Welcome {userProfile.name} to Educonnect</h1>
         <section className="hero-section-new">
+          
           <div className="hero-3d-background">
             <div className="floating-shape shape-1"></div>
             <div className="floating-shape shape-2"></div>
@@ -716,7 +718,7 @@ const StudentView = () => {
             <div className="floating-shape shape-4"></div>
             <div className="floating-shape shape-5"></div>
           </div>
-
+         
           <div className="hero-content-new">
             <div className="hero-text">
               <h1 className="hero-title-new">

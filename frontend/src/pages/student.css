@@ -57,6 +57,7 @@ body {
   list-style: none;
   gap: 1.5rem;
   margin-right:2rem;
+  margin-left:8px;
 }
 
 .nav-menu li button {
@@ -348,6 +349,14 @@ body {
   background: rgba(255, 255, 255, 0.1);
 }
 
+.header{
+  font-size: 3rem;
+  color: #1f2937;
+  margin-top: 5rem;
+  margin-left:60px;
+  /* text-align: center; */
+}
+
 /* New Home Page Styles */
 .home-container {
   max-width: 1400px;
@@ -358,7 +367,7 @@ body {
 .hero-section-new {
   background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
   border-radius: 24px;
-  margin: 100px 20px 2rem 20px;
+  margin: 30px 20px 2rem 20px;
   padding: 3rem;
   position: relative;
   overflow: hidden;
