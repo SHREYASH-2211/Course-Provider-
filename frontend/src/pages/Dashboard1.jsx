@@ -217,7 +217,7 @@ useEffect(() => {
     },
     {
       title: "Expired Events",
-      value: expiredEvents.length.toString(),
+      value: 8,
       change: "",
       subtitle: "Past events",
       icon: AlertCircle,
@@ -227,7 +227,7 @@ useEffect(() => {
     },
     {
       title: "Total Attendees",
-      value: totalAttendees.toString(),
+      value: 100,
       change: "+25%",
       subtitle: "Across all events",
       icon: Users,
@@ -240,7 +240,7 @@ useEffect(() => {
   const analyticsStats = [
     {
       title: "Expired Events",
-      value: expiredEvents.length.toString(),
+      value: 8,
       subtitle: "Events that have passed their expiry date",
       color: "text-red-600",
       icon: Clock,
@@ -248,7 +248,7 @@ useEffect(() => {
     },
     {
       title: "Active Notifications",
-      value: expiredEvents.length.toString(),
+      value: 23,
       subtitle: "Unread notifications",
       color: "text-yellow-600",
       icon: Bell,
@@ -730,7 +730,7 @@ useEffect(() => {
             </div>
           </div>
           <div className="space-y-1">
-            <h3 className="text-2xl font-bold text-gray-900">Alex Rivera</h3>
+            <h3 className="text-2xl font-bold text-gray-900">{user.fullname}</h3>
             <p className="text-purple-600 font-medium">Course Provider</p>
             <div className="flex items-center space-x-2 mt-2">
               <Star className="w-4 h-4 text-yellow-500 fill-current" />
@@ -748,7 +748,7 @@ useEffect(() => {
               </Label>
               <Input
                 id="fullName"
-                value={fullName}
+                value={user.fullname}
                 onChange={(e) => setFullName(e.target.value)}
                 className="bg-gray-50 border-0 focus:bg-white focus:ring-2 focus:ring-purple-200 transition-all duration-300"
               />
@@ -1333,7 +1333,7 @@ useEffect(() => {
                 <div className="space-y-3">
                 <Label htmlFor="maxAttendees" className="text-purple-600 font-medium flex items-center space-x-2">
                   <Users className="w-4 h-4" />
-                  <span>Maximum Attendees *</span>
+                  <span>Price</span>
                 </Label>
                 <Input
                   id="price"
