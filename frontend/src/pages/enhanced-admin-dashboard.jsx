@@ -1,8 +1,8 @@
 "use client"
 import { useState, useMemo } from "react"
 import "./enhanced-admin-dashboard.css"
-// import axios from "axios"
-// import API from "../services/api"
+import axios from "axios"
+import API from "../services/api"
 
 
 // Icons as SVG components
@@ -427,12 +427,7 @@ const EnhancedAdminDashboard = () => {
     phone: "+1 (555) 123-4567",
     location: "San Francisco, CA",
   })
-  const [announcementData, setAnnouncementData] = useState({
-    title: "",
-    message: "",
-    audience: "all",
-    priority: "normal",
-  })
+  
   const [userFilter, setUserFilter] = useState("all")
   const [eventFilter, setEventFilter] = useState("all")
   const [feedbackFilter, setFeedbackFilter] = useState("all")
@@ -1424,6 +1419,45 @@ const EnhancedAdminDashboard = () => {
     </div>
   )
 
+  const [announcementData, setAnnouncementData] = useState({
+    title: "",
+    message: "",
+    audience: "all",
+    priority: "normal",
+  })
+
+  // const [subject, setSubject] = useState('');
+  // const [message, setMessage] = useState('');
+  // const [jwt, setJwt] = useState('');     // Store your JWT token for authorization
+  // const [feedback, setFeedback] = useState('');
+
+  const handleSendAnnouncement = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await API.post(
+      "/announcement/send",
+      {
+        subject: announcementData.title,
+        message: announcementData.message,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    showNotification(`✅ ${response.data.message}`);
+    setAnnouncementData({ title: "", message: "", audience: "all", priority: "normal" });
+  } catch (error) {
+    console.error("Failed to send announcement:", error);
+    showNotification(`❌ ${error.response?.data?.message || error.message}`);
+  }
+};
+  
+
+
   const renderAnnouncements = () => (
     <div className="announcements-page">
       <div className="announcement-container">
@@ -1437,22 +1471,21 @@ const EnhancedAdminDashboard = () => {
               <div className="form-group">
                 <label htmlFor="title">Announcement Title</label>
                 <input
-                  id="title"
-                  type="text"
-                  placeholder="Enter announcement title..."
-                  value={announcementData.title}
-                  onChange={(e) => setAnnouncementData({ ...announcementData, title: e.target.value })}
-                />
+        type="text"
+        placeholder="Announcement Title"
+        value={announcementData.title}
+        onChange={(e) => setAnnouncementData({ ...announcementData, title: e.target.value })}
+      />
+
               </div>
               <div className="form-group">
                 <label htmlFor="message">Message Content</label>
                 <textarea
-                  id="message"
-                  rows={8}
-                  placeholder="Write your announcement message..."
-                  value={announcementData.message}
-                  onChange={(e) => setAnnouncementData({ ...announcementData, message: e.target.value })}
-                ></textarea>
+        placeholder="Announcement Message"
+        value={announcementData.message}
+        onChange={(e) => setAnnouncementData({ ...announcementData, message: e.target.value })}
+      />
+
               </div>
               <div className="form-row">
                 <div className="form-group">
@@ -1482,19 +1515,13 @@ const EnhancedAdminDashboard = () => {
                 </div>
               </div>
               <div className="form-actions">
-                <button
-                  className="btn btn-primary"
-                  onClick={() => {
-                    showNotification(`Announcement "${announcementData.title || "Untitled"}" sent successfully!`)
-                    setAnnouncementData({ title: "", message: "", audience: "all", priority: "normal" })
-                  }}
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
-                    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
-                  </svg>
-                  Send Announcement
-                </button>
+                <button className="btn btn-primary" onClick={handleSendAnnouncement}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+          <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+        </svg>
+        Send Announcement
+      </button>
                 <button className="btn btn-secondary" onClick={() => showNotification("Draft saved successfully!")}>
                   Save Draft
                 </button>
