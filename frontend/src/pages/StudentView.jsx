@@ -538,7 +538,7 @@ const StudentView = () => {
     <nav className="navbar">
       <div className="nav-container">
         <div className="nav-logo">
-          <h2>StudyHub</h2>
+          <h2>EduConnect</h2>
         </div>
         <ul className="nav-menu">
           <li className={currentPage === "home" ? "active" : ""}>
