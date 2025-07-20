@@ -22,7 +22,7 @@ const Events = () => {
       category: 'Technology',
       price: 'Free',
       attendees: 245,
-      image: '/api/placeholder/400/250'
+      image: 'https://i.ytimg.com/vi/-Qnf2bME-rE/sddefault.jpg'
     },
     {
       id: 2,
@@ -36,7 +36,7 @@ const Events = () => {
       category: 'Business',
       price: '$49',
       attendees: 189,
-      image: '/api/placeholder/400/250'
+      image: 'https://lh6.googleusercontent.com/gmj1iVMyeZ86D1NapnOxH1E_IWb274F4yc3AbMBo6P6Xe1olSPUTvrRC8nKhH5hDroJVpVwVaczwXtqsjqWlYQOGf4tIBG8cOZCEwbO61e4w_9fKNUcJ5rLCDFZmemm_mG51nq_Z'
     },
     {
       id: 3,
@@ -50,7 +50,7 @@ const Events = () => {
       category: 'Design',
       price: '$29',
       attendees: 156,
-      image: '/api/placeholder/400/250'
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7eQ-vNTEZmBsSYUR5fGDNe58uRfhHEVN3dA&s'
     },
     {
       id: 4,
@@ -64,7 +64,7 @@ const Events = () => {
       category: 'Technology',
       price: '$79',
       attendees: 203,
-      image: '/api/placeholder/400/250'
+      image: 'https://m.media-amazon.com/images/I/51-guMrh6TL._UF1000,1000_QL80_.jpg'
     },
     {
       id: 5,
@@ -78,7 +78,7 @@ const Events = () => {
       category: 'Business',
       price: 'Free',
       attendees: 298,
-      image: '/api/placeholder/400/250'
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxd-RdO1sOSaiYeOUvSruLRtaKH5Y_byUMUw&s'
     },
     {
       id: 6,
@@ -92,7 +92,7 @@ const Events = () => {
       category: 'Health',
       price: '$19',
       attendees: 124,
-      image: '/api/placeholder/400/250'
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2ACuGHpVzK7aiL7VtielvqPBgBgacxh9uUQ&s'
     }
   ];
 
@@ -187,9 +187,11 @@ const Events = () => {
               className="bg-card rounded-2xl shadow-card hover:shadow-glow transition-all duration-300 overflow-hidden border border-border/50"
             >
               <div className="h-48 bg-gradient-card flex items-center justify-center">
-                <div className="text-6xl opacity-20">
-                  {event.type === 'Webinar' ? '🎥' : event.type === 'Course' ? '📚' : '🎯'}
-                </div>
+                <img
+                  src={event.image}
+                  alt="Event"
+                  className="h-full w-full object-cover"
+                />
               </div>
               
               <div className="p-6">
