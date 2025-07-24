@@ -5,6 +5,10 @@ import connectDB from "./db/index.js";
 import app from "./app.js"; // ✅ this app has your routes!
 import "./cron/deadlineReminder.js";
 
+app.get("/", (req, res) => {
+  res.send("Hello from backend");
+});
+
 connectDB()
   .then(() => {
     app.listen(process.env.PORT || 8000, () => {
