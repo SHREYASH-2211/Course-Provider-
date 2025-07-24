@@ -54,7 +54,7 @@ import API from '../services/api.jsx';
 import axios from 'axios';
  // adjust the path
 export default function Component() {
-  const link="https://educonnect-imfb.onrender.com/api"
+  const link="https://course-provider-hwak.onrender.com/api"
   const [activeView, setActiveView] = useState("dashboard")
   const [isCreateEventOpen, setIsCreateEventOpen] = useState(false)
   const [isViewEventOpen, setIsViewEventOpen] = useState(false)
